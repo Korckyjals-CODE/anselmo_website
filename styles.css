@@ -35,7 +35,10 @@ h1, h2 {
 /* Hero Section */
 .hero {
     text-align: center;
-    background-color: #e9ecef;
+    background-image: url('hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
     padding: 50px 20px;
 }
 .hero h1 {
