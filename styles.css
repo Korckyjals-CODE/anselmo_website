@@ -40,14 +40,31 @@ h1, h2 {
     background-position: center;
     color: white;
     padding: 50px 20px;
+    position: relative;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Add a dark overlay */
+    z-index: 1;
+}
+.hero h1, .hero p {
+    position: relative;
+    z-index: 2;
 }
 .hero h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .hero p {
     font-size: 1.2em;
     margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .cta-button {
     text-decoration: none;
@@ -56,6 +73,8 @@ h1, h2 {
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 1em;
+    position: relative;
+    z-index: 2;
 }
 .cta-button:hover {
     background-color: #218838;
