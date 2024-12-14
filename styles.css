@@ -35,7 +35,7 @@ h1, h2 {
 /* Hero Section */
 .hero {
     text-align: center;
-    background-image: url('hero.jpg');
+    background-image: url('hero.jpeg');
     background-size: cover;
     background-position: center;
     color: white;
