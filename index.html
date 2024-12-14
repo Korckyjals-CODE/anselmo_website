@@ -15,21 +15,21 @@
 
     <!-- Hero Section -->
     <header class="hero">
-        <h1>Anselmo</h1>
-        <p>Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.</p>
-        <a href="#contact" class="cta-button">Contáctanos</a>
+        <h1 id="hero-title">Anselmo</h1>
+        <p id="hero-desc">Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.</p>
+        <a href="#contact" class="cta-button" id="cta">Contáctanos</a>
     </header>
 
     <!-- How It Works -->
     <section id="how-it-works">
-        <h2>¿Cómo funciona?</h2>
-        <p>Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.</p>
+        <h2 id="how-title">¿Cómo funciona?</h2>
+        <p id="how-desc">Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.</p>
     </section>
 
     <!-- Features -->
     <section id="features">
-        <h2>Características</h2>
-        <ul>
+        <h2 id="features-title">Características</h2>
+        <ul id="features-list">
             <li>Extracción y procesamiento de datos</li>
             <li>Generación de reportes y gráficas</li>
             <li>Consolidación de archivos</li>
@@ -39,8 +39,8 @@
 
     <!-- Testimonials -->
     <section id="testimonials">
-        <h2>Testimonios</h2>
-        <blockquote>
+        <h2 id="testimonials-title">Testimonios</h2>
+        <blockquote id="testimonial">
             <p>"Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!"</p>
             <cite>Cliente Satisfecho</cite>
         </blockquote>
@@ -48,25 +48,25 @@
 
     <!-- FAQ -->
     <section id="faq">
-        <h2>Preguntas Frecuentes</h2>
+        <h2 id="faq-title">Preguntas Frecuentes</h2>
         <details>
             <summary>¿Qué tipos de archivos procesa Anselmo?</summary>
-            <p>Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.</p>
+            <p id="faq1">Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.</p>
         </details>
         <details>
             <summary>¿Cómo se personalizan las tareas?</summary>
-            <p>Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.</p>
+            <p id="faq2">Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.</p>
         </details>
         <details>
             <summary>¿Cuánto cuesta el servicio?</summary>
-            <p>Contáctanos para una cotización personalizada.</p>
+            <p id="faq3">Contáctanos para una cotización personalizada.</p>
         </details>
     </section>
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2>Contacto</h2>
-        <p>Para más información, contáctanos:</p>
+        <h2 id="contact-title">Contacto</h2>
+        <p id="contact-desc">Para más información, contáctanos:</p>
         <ul>
             <li>Email: <a href="mailto:info@korckyjals-code.com">info@korckyjals-code.com</a></li>
             <li>Teléfono: (503) 7129 6561</li>
@@ -75,14 +75,72 @@
 
     <!-- Footer -->
     <footer>
-        <p>© 2024 Anselmo. Todos los derechos reservados.</p>
+        <p id="footer-desc">© 2024 Anselmo. Todos los derechos reservados.</p>
         <p><a href="https://github.com/Korckyjals-CODE/anselmo_website">Repositorio en GitHub</a></p>
     </footer>
 
     <script>
+        const translations = {
+            es: {
+                "hero-title": "Anselmo",
+                "hero-desc": "Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.",
+                "cta": "Contáctanos",
+                "how-title": "¿Cómo funciona?",
+                "how-desc": "Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.",
+                "features-title": "Características",
+                "features-list": [
+                    "Extracción y procesamiento de datos",
+                    "Generación de reportes y gráficas",
+                    "Consolidación de archivos",
+                    "Automatización de tareas periódicas"
+                ],
+                "testimonials-title": "Testimonios",
+                "testimonial": "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!",
+                "faq-title": "Preguntas Frecuentes",
+                "faq1": "Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.",
+                "faq2": "Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.",
+                "faq3": "Contáctanos para una cotización personalizada.",
+                "contact-title": "Contacto",
+                "contact-desc": "Para más información, contáctanos:",
+                "footer-desc": "© 2024 Anselmo. Todos los derechos reservados."
+            },
+            en: {
+                "hero-title": "Anselmo",
+                "hero-desc": "Automate repetitive tasks, save time, and improve productivity.",
+                "cta": "Contact Us",
+                "how-title": "How It Works",
+                "how-desc": "Send your files to the Anselmo bot via email, and receive the processed results within minutes.",
+                "features-title": "Features",
+                "features-list": [
+                    "Data extraction and processing",
+                    "Report and chart generation",
+                    "File consolidation",
+                    "Periodic task automation"
+                ],
+                "testimonials-title": "Testimonials",
+                "testimonial": "Anselmo helped us reduce the time needed to consolidate orders from 4 hours to 5 minutes. An amazing tool!",
+                "faq-title": "Frequently Asked Questions",
+                "faq1": "Anselmo works with Excel, Word, PowerPoint, and text files.",
+                "faq2": "We meet with the client to understand their needs and program specific solutions.",
+                "faq3": "Contact us for a personalized quote.",
+                "contact-title": "Contact",
+                "contact-desc": "For more information, reach out to us:",
+                "footer-desc": "© 2024 Anselmo. All rights reserved."
+            }
+        };
+
         function switchLanguage(lang) {
-            // Placeholder for language switch functionality
-            alert(`Switching to ${lang === 'es' ? 'Español' : 'English'}`);
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                const id = el.id;
+                if (translations[lang][id]) {
+                    if (Array.isArray(translations[lang][id])) {
+                        el.innerHTML = translations[lang][id].map(item => `<li>${item}</li>`).join('');
+                    } else {
+                        el.innerHTML = translations[lang][id];
+                    }
+                }
+            });
         }
     </script>
 </body>
