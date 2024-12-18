@@ -1,171 +1,190 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anselmo - Automatización Inteligente</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <!-- Language Toggle -->
     <div class="language-toggle">
-        <button id="lang-es" onclick="switchLanguage('es')">Español</button>
-        <button id="lang-en" onclick="switchLanguage('en')">English</button>
+      <button id="lang-es" onclick="switchLanguage('es')">Español</button>
+      <button id="lang-en" onclick="switchLanguage('en')">English</button>
     </div>
 
     <!-- Hero Section -->
     <header class="hero">
-        <h1 id="hero-title">Anselmo</h1>
-        <p id="hero-desc">Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.</p>
-        <a href="#contact" class="cta-button" id="cta">Contáctanos</a>
+      <h1 id="hero-title">Anselmo</h1>
+      <p id="hero-desc">
+        Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.
+      </p>
+      <a href="#contact" class="cta-button" id="cta">Contáctanos</a>
     </header>
 
     <!-- How It Works -->
     <section id="how-it-works">
-        <h2>¿Cómo funciona?</h2>
-        <p>Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.</p>
-        <img src="how_it_works.webp" alt="How Anselmo Works" style="width:100%; max-width:600px; display:block; margin:20px auto;">
-
-        <!-- Features -->
-        <ul id="features-list">
-            <li><img src="data_extraction.png" alt="Data Extraction Icon" style="width:24px; vertical-align:middle; margin-right:10px;"> Data extraction and processing</li>
-            <li><img src="report_generation.png" alt="Report Generation Icon" style="width:24px; vertical-align:middle; margin-right:10px;"> Report generation</li>
-            <li>File consolidation</li>
-            <li>Periodic task automation</li>
-        </ul>
+      <h2 id="how-title">¿Cómo funciona?</h2>
+      <p id="how-desc">
+        Envía tus archivos al bot Anselmo por correo electrónico, y recibe los
+        resultados procesados en minutos.
+      </p>
+      <img
+        src="how_it_works.webp"
+        alt="How Anselmo Works"
+        style="width: 100%; max-width: 600px; display: block; margin: 20px auto"
+      />
     </section>
 
     <style>
-        /* Add better contrast for the title */
-        .hero h1 {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add a dark shadow for better contrast */
-        }
+      /* Add better contrast for the title */
+      .hero h1 {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add a dark shadow for better contrast */
+      }
     </style>
 
     <!-- Features -->
     <section id="features">
-        <h2 id="features-title">Características</h2>
-        <ul id="features-list">
-            <li><img src="data_extraction.png" alt="Data Extraction Icon" style="width:24px; vertical-align:middle; margin-right:10px;">Extracción y procesamiento de datos</li>
-            <li><img src="report_generation.png" alt="Report Generation Icon" style="width:24px; vertical-align:middle; margin-right:10px;"> Generación de reportes y gráficas</li>
-            <li>Consolidación de archivos</li>
-            <li>Automatización de tareas periódicas</li>
-        </ul>
+      <h2 id="features-title">Características</h2>
+      <ul id="features-list">
+        <li>Extracción y procesamiento de datos</li>
+        <li>Generación de reportes y gráficas</li>
+        <li>Consolidación de archivos</li>
+        <li>Automatización de tareas periódicas</li>
+      </ul>
     </section>
 
     <!-- Testimonials -->
     <section id="testimonials">
-        <h2 id="testimonials-title">Testimonios</h2>
-        <blockquote id="testimonial">
-            <p>"Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!"</p>
-            <cite>Cliente Satisfecho</cite>
-        </blockquote>
+      <h2 id="testimonials-title">Testimonios</h2>
+      <blockquote id="testimonial">
+        <p>
+          "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo
+          necesario para consolidar pedidos. ¡Una herramienta increíble!"
+        </p>
+        <cite>Cliente Satisfecho</cite>
+      </blockquote>
     </section>
 
     <!-- FAQ -->
     <section id="faq">
-        <h2 id="faq-title">Preguntas Frecuentes</h2>
-        <details>
-            <summary id="faq-q1">¿Qué tipos de archivos procesa Anselmo?</summary>
-            <p id="faq1">Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.</p>
-        </details>
-        <details>
-            <summary id="faq-q2">¿Cómo se personalizan las tareas?</summary>
-            <p id="faq2">Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.</p>
-        </details>
-        <details>
-            <summary id="faq-q3">¿Cuánto cuesta el servicio?</summary>
-            <p id="faq3">Contáctanos para una cotización personalizada.</p>
-        </details>
+      <h2 id="faq-title">Preguntas Frecuentes</h2>
+      <details>
+        <summary id="faq-q1">¿Qué tipos de archivos procesa Anselmo?</summary>
+        <p id="faq1">
+          Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.
+        </p>
+      </details>
+      <details>
+        <summary id="faq-q2">¿Cómo se personalizan las tareas?</summary>
+        <p id="faq2">
+          Nos reunimos con el cliente para entender sus necesidades y programar
+          las soluciones específicas.
+        </p>
+      </details>
+      <details>
+        <summary id="faq-q3">¿Cuánto cuesta el servicio?</summary>
+        <p id="faq3">Contáctanos para una cotización personalizada.</p>
+      </details>
     </section>
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2 id="contact-title">Contacto</h2>
-        <p id="contact-desc">Para más información, contáctanos:</p>
-        <ul>
-            <li>Email: <a href="mailto:info@korckyjals-code.com">info@korckyjals-code.com</a></li>
-            <li><span id="phone-label">Teléfono</span>: (503) 7129 6561</li>
-        </ul>
+      <h2 id="contact-title">Contacto</h2>
+      <p id="contact-desc">Para más información, contáctanos:</p>
+      <ul>
+        <li>
+          Email:
+          <a href="mailto:info@korckyjals-code.com">info@korckyjals-code.com</a>
+        </li>
+      </ul>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p id="footer-desc">© 2024 Anselmo. Todos los derechos reservados.</p>
+      <p id="footer-desc">© 2024 Anselmo. Todos los derechos reservados.</p>
     </footer>
 
     <script>
-        const translations = {
-            es: {
-                "hero-title": "Anselmo",
-                "hero-desc": "Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.",
-                "cta": "Contáctanos",
-                "how-title": "¿Cómo funciona?",
-                "how-desc": "Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.",
-                "features-title": "Características",
-                "features-list": [
-                    "Extracción y procesamiento de datos",
-                    "Generación de reportes y gráficas",
-                    "Consolidación de archivos",
-                    "Automatización de tareas periódicas"
-                ],
-                "testimonials-title": "Testimonios",
-                "testimonial": "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!",
-                "faq-title": "Preguntas Frecuentes",
-                "faq-q1": "¿Qué tipos de archivos procesa Anselmo?",
-                "faq-q2": "¿Cómo se personalizan las tareas?",
-                "faq-q3": "¿Cuánto cuesta el servicio?",
-                "faq1": "Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.",
-                "faq2": "Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.",
-                "faq3": "Contáctanos para una cotización personalizada.",
-                "contact-title": "Contacto",
-                "contact-desc": "Para más información, contáctanos:",
-                "phone-label": "Teléfono",
-                "footer-desc": "© 2024 Anselmo. Todos los derechos reservados."
-            },
-            en: {
-                "hero-title": "Anselmo",
-                "hero-desc": "Automate repetitive tasks, save time, and improve productivity.",
-                "cta": "Contact Us",
-                "how-title": "How It Works",
-                "how-desc": "Send your files to the Anselmo bot via email, and receive the processed results within minutes.",
-                "features-title": "Features",
-                "features-list": [
-                    "Data extraction and processing",
-                    "Report and chart generation",
-                    "File consolidation",
-                    "Periodic task automation"
-                ],
-                "testimonials-title": "Testimonials",
-                "testimonial": "Anselmo helped us reduce the time needed to consolidate orders from 4 hours to 5 minutes. An amazing tool!",
-                "faq-title": "Frequently Asked Questions",
-                "faq-q1": "What types of files does Anselmo process?",
-                "faq-q2": "How are tasks customized?",
-                "faq-q3": "How much does the service cost?",
-                "faq1": "Anselmo works with Excel, Word, PowerPoint, and text files.",
-                "faq2": "We meet with the client to understand their needs and program specific solutions.",
-                "faq3": "Contact us for a personalized quote.",
-                "contact-title": "Contact",
-                "contact-desc": "For more information, reach out to us:",
-                "phone-label": "Phone",
-                "footer-desc": "© 2024 Anselmo. All rights reserved."
-            }
-        };
+      const translations = {
+        es: {
+          "hero-title": "Anselmo",
+          "hero-desc":
+            "Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.",
+          cta: "Contáctanos",
+          "how-title": "¿Cómo funciona?",
+          "how-desc":
+            "Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.",
+          "features-title": "Características",
+          "features-list": [
+            "Extracción y procesamiento de datos",
+            "Generación de reportes y gráficas",
+            "Consolidación de archivos",
+            "Automatización de tareas periódicas",
+          ],
+          "testimonials-title": "Testimonios",
+          testimonial:
+            "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!",
+          "faq-title": "Preguntas Frecuentes",
+          "faq-q1": "¿Qué tipos de archivos procesa Anselmo?",
+          "faq-q2": "¿Cómo se personalizan las tareas?",
+          "faq-q3": "¿Cuánto cuesta el servicio?",
+          faq1: "Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.",
+          faq2: "Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.",
+          faq3: "Contáctanos para una cotización personalizada.",
+          "contact-title": "Contacto",
+          "contact-desc": "Para más información, contáctanos:",
+          "phone-label": "Teléfono",
+          "footer-desc": "© 2024 Anselmo. Todos los derechos reservados.",
+        },
+        en: {
+          "hero-title": "Anselmo",
+          "hero-desc":
+            "Automate repetitive tasks, save time, and improve productivity.",
+          cta: "Contact Us",
+          "how-title": "How It Works",
+          "how-desc":
+            "Send your files to the Anselmo bot via email, and receive the processed results within minutes.",
+          "features-title": "Features",
+          "features-list": [
+            "Data extraction and processing",
+            "Report and chart generation",
+            "File consolidation",
+            "Periodic task automation",
+          ],
+          "testimonials-title": "Testimonials",
+          testimonial:
+            "Anselmo helped us reduce the time needed to consolidate orders from 4 hours to 5 minutes. An amazing tool!",
+          "faq-title": "Frequently Asked Questions",
+          "faq-q1": "What types of files does Anselmo process?",
+          "faq-q2": "How are tasks customized?",
+          "faq-q3": "How much does the service cost?",
+          faq1: "Anselmo works with Excel, Word, PowerPoint, and text files.",
+          faq2: "We meet with the client to understand their needs and program specific solutions.",
+          faq3: "Contact us for a personalized quote.",
+          "contact-title": "Contact",
+          "contact-desc": "For more information, reach out to us:",
+          "phone-label": "Phone",
+          "footer-desc": "© 2024 Anselmo. All rights reserved.",
+        },
+      };
 
-        function switchLanguage(lang) {
-            const elements = document.querySelectorAll('[id]');
-            elements.forEach(el => {
-                const id = el.id;
-                if (translations[lang][id]) {
-                    if (Array.isArray(translations[lang][id])) {
-                        el.innerHTML = translations[lang][id].map(item => `<li>${item}</li>`).join('');
-                    } else {
-                        el.innerHTML = translations[lang][id];
-                    }
-                }
-            });
-        }
+      function switchLanguage(lang) {
+        const elements = document.querySelectorAll("[id]");
+        elements.forEach((el) => {
+          const id = el.id;
+          if (translations[lang][id]) {
+            if (Array.isArray(translations[lang][id])) {
+              el.innerHTML = translations[lang][id]
+                .map((item) => `<li>${item}</li>`)
+                .join("");
+            } else {
+              el.innerHTML = translations[lang][id];
+            }
+          }
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
