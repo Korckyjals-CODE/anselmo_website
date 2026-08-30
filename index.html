@@ -1100,18 +1100,40 @@
             <div class="image-frame"><img src="assets/outlook-vba.png" alt="Editor VBA de Outlook con el módulo KCK_OutlookBotTools y el procedimiento ProcessBotTask" /></div>
           </div>
         </div>
-        <div class="code-placeholder reveal" aria-label="Bloque de código pendiente">
-          <div class="code-header"><span>OutlookBot.bas</span><span class="lang-es">fragmento pendiente</span><span class="lang-en">pending snippet</span></div>
-          <pre><span class="code-comment">' ES: Fragmento real de VBA pendiente de insertar.
-' EN: Real VBA snippet pending insertion.</span>
+        <div class="code-placeholder reveal" aria-label="OutlookBot.bas Application_Startup">
+          <div class="code-header"><span>OutlookBot.bas</span><span class="lang-es">Application_Startup</span><span class="lang-en">Application_Startup</span></div>
+          <pre>Public Sub Application_Startup()
 
-<span class="pending-code">' Application_Startup
-' ItemAdd
-' Win32 Timer
-' ProcessBotTask
-' BotTasks / BotLatestActivity
+<span class="code-comment">    'v1.0:  Created
+    'v1.1:  Turns on the bot rule.
+    'v1.2:  Executes the bot rule on Inbox.
+    'v1.3:  Added weoInboxItems.
+    'v1.4:  Transferred from ThisOutlookSession.</span>
 
-' Reemplazar este bloque cuando se proporcionen los fragmentos reales.</span></pre>
+    Dim oRules As Outlook.Rules
+    Dim oOneRule As Outlook.Rule
+    Dim oInbox As Outlook.folder
+    Dim oItem As Outlook.MailItem
+
+    On Error GoTo Leave
+
+    Call UpdateGlobalVariables
+    Call EnsureStrStatusColumnsExist
+
+    Set weoInboxItems = Application.GetNamespace("MAPI").GetDefaultFolder(olFolderInbox).Items
+
+    Debug.Print "The Inbox Add event has been activated"
+
+    GstrEventsAreActive = "YES"
+    GbooEchoToDisplay = True
+
+    Call DeactivateTimer
+    Call CreateBotTaskStamp(olFolderSentMail)
+    Call ActivateTimer
+
+Leave:
+
+End Sub</pre>
         </div>
       </div>
     </section>
