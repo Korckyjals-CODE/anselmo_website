@@ -63,13 +63,98 @@
       line-height: 1.6;
     }
 
-    body.menu-open { overflow: hidden; }
+    body.menu-open,
+    body.lightbox-open { overflow: hidden; }
 
     a { color: inherit; text-decoration: none; }
 
     img {
       width: 100%;
       display: block;
+    }
+
+    img[data-lightbox] {
+      cursor: pointer;
+      transition: opacity 0.18s ease, filter 0.18s ease;
+    }
+
+    img[data-lightbox]:hover {
+      opacity: 0.92;
+      filter: brightness(1.03);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px 28px;
+      background: rgba(15, 31, 48, 0.82);
+      backdrop-filter: blur(2px);
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox-dialog {
+      position: relative;
+      max-width: min(96vw, 1280px);
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      outline: none;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 1;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #9fbad6;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f8fbff 0%, #d9e2f3 100%);
+      color: var(--office-blue);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: #fff;
+      outline: 2px solid var(--office-blue-2);
+      outline-offset: 2px;
+    }
+
+    .lightbox-image {
+      max-width: 96vw;
+      max-height: calc(100vh - 96px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border: 1px solid #9fbad6;
+      border-radius: 8px;
+      background: #0f1f30;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .lightbox-caption {
+      max-width: min(90vw, 720px);
+      margin: 0;
+      padding: 0 8px;
+      color: #e8eef5;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     }
 
     .lang-en { display: none; }
@@ -1208,6 +1293,22 @@ End Sub</pre>
     <p><span class="lang-es">Un proyecto de Jorge López / Korckyjals-CODE · Operó aproximadamente de noviembre de 2020 a mayo de 2026.</span><span class="lang-en">A project by Jorge López / Korckyjals-CODE · Operated approximately from November 2020 to May 2026.</span></p>
   </footer>
 
+  <div
+    class="lightbox"
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="lightboxCaption"
+    hidden
+  >
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Cerrar">×</button>
+    <div class="lightbox-dialog" id="lightboxDialog">
+      <img class="lightbox-image" id="lightboxImage" alt="" />
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
   <script>
     const body = document.body;
     const langButtons = document.querySelectorAll('[data-set-lang]');
@@ -1252,6 +1353,89 @@ End Sub</pre>
     }, { threshold: 0.14 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    (function initLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const lightboxCaption = document.getElementById('lightboxCaption');
+      const lightboxClose = document.getElementById('lightboxClose');
+      const lightboxDialog = document.getElementById('lightboxDialog');
+      let lastFocus = null;
+
+      const screenshots = document.querySelectorAll('main img[src^="assets/"]');
+      screenshots.forEach((img) => {
+        img.setAttribute('data-lightbox', '');
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        const openLabel = img.alt
+          ? (body.getAttribute('data-lang') === 'en' ? 'Open full size: ' : 'Ver a tamaño completo: ') + img.alt
+          : (body.getAttribute('data-lang') === 'en' ? 'Open full size' : 'Ver a tamaño completo');
+        img.setAttribute('aria-label', openLabel);
+
+        const openFromThumb = () => openLightbox(img);
+        img.addEventListener('click', openFromThumb);
+        img.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openFromThumb();
+          }
+        });
+      });
+
+      function openLightbox(sourceImg) {
+        lastFocus = document.activeElement;
+        lightboxImage.src = sourceImg.currentSrc || sourceImg.src;
+        lightboxImage.alt = sourceImg.alt || '';
+        lightboxCaption.textContent = sourceImg.alt || '';
+        lightbox.hidden = false;
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        body.classList.add('lightbox-open');
+        lightboxClose.focus();
+      }
+
+      function closeLightbox() {
+        if (!lightbox.classList.contains('is-open')) return;
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightbox.hidden = true;
+        lightboxImage.removeAttribute('src');
+        lightboxImage.alt = '';
+        lightboxCaption.textContent = '';
+        body.classList.remove('lightbox-open');
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+      }
+
+      lightboxClose.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeLightbox();
+      });
+
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+
+      lightboxDialog.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+
+      lightboxImage.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeLightbox();
+          return;
+        }
+        if (event.key === 'Tab') {
+          event.preventDefault();
+          lightboxClose.focus();
+        }
+      });
+    })();
   </script>
 </body>
 </html>
