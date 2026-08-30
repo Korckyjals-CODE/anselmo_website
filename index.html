@@ -1,190 +1,1252 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anselmo - Automatización Inteligente</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <!-- Language Toggle -->
-    <div class="language-toggle">
-      <button id="lang-es" onclick="switchLanguage('es')">Español</button>
-      <button id="lang-en" onclick="switchLanguage('en')">English</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anselmo | Automatización por correo electrónico antes de la era de la IA</title>
+  <meta name="description" content="Homenaje y portafolio de Anselmo, un bot de automatización de tareas por correo electrónico creado por Jorge López / Korckyjals-CODE." />
+  <style>
+    /*
+      Suggested /assets/ files for this page:
+      /assets/hero-anselmo.png
+      /assets/flujo-correo.png
+      /assets/caso-frutas-verduras.png
+      /assets/caso-logistica.png
+      /assets/outlook-vba.png
+      /assets/reporte-consolidado.png
+      /assets/galeria-01.png
+      /assets/galeria-02.png
+      /assets/galeria-03.png
+      /assets/galeria-04.png
+      /assets/galeria-05.png
+      /assets/galeria-06.png
+
+      hero-anselmo.png is a real Outlook screenshot. Other images are still placeholders.
+    */
+
+    :root {
+      --office-blue: #1f4e79;
+      --office-blue-2: #2f75b5;
+      --office-blue-3: #9dc3e6;
+      --office-gray: #d9e2f3;
+      --office-light: #f3f6fb;
+      --window-bg: #ffffff;
+      --grid-line: #d7e3f0;
+      --text: #1f2933;
+      --muted: #64748b;
+      --shadow-dark: rgba(31, 78, 121, 0.22);
+      --shadow-soft: rgba(15, 23, 42, 0.12);
+      --accent-green: #70ad47;
+      --accent-orange: #ed7d31;
+      --accent-yellow: #ffc000;
+      --danger-red: #c00000;
+      --max-width: 1180px;
+      --nav-height: 68px;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-height) + 18px);
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        linear-gradient(90deg, rgba(215, 227, 240, 0.55) 1px, transparent 1px),
+        linear-gradient(rgba(215, 227, 240, 0.55) 1px, transparent 1px),
+        linear-gradient(180deg, #f8fbff 0%, #eef4fb 45%, #f8fbff 100%);
+      background-size: 34px 34px, 34px 34px, 100% 100%;
+      line-height: 1.6;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    a { color: inherit; text-decoration: none; }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .lang-en { display: none; }
+    body[data-lang="en"] .lang-es { display: none; }
+    body[data-lang="en"] .lang-en { display: inline; }
+    body[data-lang="en"] .block.lang-en { display: block; }
+    body[data-lang="en"] .grid.lang-en { display: grid; }
+    body[data-lang="en"] .flex.lang-en { display: flex; }
+    body[data-lang="en"] .lang-es.block,
+    body[data-lang="en"] .lang-es.grid,
+    body[data-lang="en"] .lang-es.flex { display: none; }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      background: linear-gradient(180deg, #f8fbff 0%, #d9e2f3 100%);
+      border-bottom: 1px solid #9fbad6;
+      box-shadow: 0 4px 18px rgba(31, 78, 121, 0.18);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 210px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #7f9db9;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #217346 0%, #70ad47 100%);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4), 2px 2px 4px rgba(0,0,0,0.18);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--office-blue);
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      padding: 8px 9px;
+      border-radius: 6px;
+      color: #23415f;
+      border: 1px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      background: linear-gradient(180deg, #ffffff 0%, #dceaf8 100%);
+      border-color: #9fbad6;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-toggle {
+      display: flex;
+      border: 1px solid #7f9db9;
+      background: #edf3fa;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .lang-toggle button {
+      border: 0;
+      padding: 7px 10px;
+      font-weight: 800;
+      cursor: pointer;
+      background: transparent;
+      color: var(--office-blue);
+    }
+
+    .lang-toggle button.active {
+      background: linear-gradient(180deg, var(--office-blue-2) 0%, var(--office-blue) 100%);
+      color: #fff;
+    }
+
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 38px;
+      border: 1px solid #7f9db9;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fff 0%, #dbe8f6 100%);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: var(--office-blue);
+      display: block;
+      border-radius: 8px;
+    }
+
+    main { padding-top: var(--nav-height); }
+
+    .section {
+      padding: 76px 20px;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 96px 20px 78px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(157, 195, 230, 0.55), transparent 32%),
+        radial-gradient(circle at 80% 20%, rgba(112, 173, 71, 0.22), transparent 26%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--office-blue);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      border: 1px solid #b7c9dc;
+      background: rgba(255,255,255,0.72);
+      border-radius: 999px;
+      box-shadow: inset 1px 1px 0 #fff;
+    }
+
+    h1, h2, h3 { line-height: 1.15; color: #17395b; margin: 0; }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      margin: 18px 0 10px;
+      letter-spacing: -0.06em;
+      text-shadow: 2px 2px 0 #d9e2f3;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.25rem, 3vw, 2.1rem);
+      color: var(--office-blue);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .lead {
+      font-size: 1.15rem;
+      max-width: 720px;
+      color: #34495e;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .office-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border: 1px solid #7f9db9;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #d9eaf9 100%);
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.85), 2px 2px 5px rgba(31,78,121,0.18);
+      font-weight: 800;
+      color: var(--office-blue);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .office-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.85), 4px 6px 12px rgba(31,78,121,0.2);
+    }
+
+    .window {
+      border: 1px solid #7f9db9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--window-bg);
+      box-shadow: 8px 12px 28px rgba(31, 78, 121, 0.2), inset 1px 1px 0 #fff;
+    }
+
+    .window-titlebar {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 12px;
+      color: white;
+      background: linear-gradient(180deg, #2f75b5 0%, #1f4e79 100%);
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .window-controls span {
+      width: 16px;
+      height: 16px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 2px;
+      font-size: 0.62rem;
+      background: rgba(255,255,255,0.16);
+    }
+
+    .window-content { padding: 18px; }
+
+    .hero-card .window-content {
+      background:
+        linear-gradient(90deg, rgba(157,195,230,0.18) 1px, transparent 1px),
+        linear-gradient(rgba(157,195,230,0.18) 1px, transparent 1px),
+        #fff;
+      background-size: 28px 28px;
+    }
+
+    .placeholder-note {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      margin: 12px 0 0;
+      border: 1px dashed #b58b00;
+      color: #6f5200;
+      background: #fff4cc;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .image-frame {
+      border: 1px solid #a7bfd8;
+      background: #f8fbff;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: inset 1px 1px 0 #fff;
+      overflow: hidden;
+    }
+
+    .image-frame img {
+      border-radius: 6px;
+      border: 1px solid #c8d7e7;
+      background: #eef5fc;
+      min-height: 160px;
+      object-fit: cover;
+    }
+
+    .section-heading {
+      margin-bottom: 28px;
+      display: grid;
+      gap: 10px;
+      max-width: 850px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: #455a6f;
+      font-size: 1.05rem;
+    }
+
+    .ribbon {
+      background: linear-gradient(180deg, #ffffff 0%, #edf3fa 100%);
+      border-top: 1px solid #c2d4e7;
+      border-bottom: 1px solid #c2d4e7;
+      padding: 16px 20px;
+      box-shadow: inset 0 1px 0 #fff;
+    }
+
+    .ribbon-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid #b7c9dc;
+      border-radius: 10px;
+      background: #fff;
+      padding: 14px;
+      box-shadow: inset 1px 1px 0 #fff, 2px 2px 6px rgba(31,78,121,0.12);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--office-blue);
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: #587086;
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid #b7c9dc;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.88);
+      box-shadow: inset 1px 1px 0 #fff, 4px 8px 18px rgba(31,78,121,0.12);
+      padding: 20px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: inset 1px 1px 0 #fff, 6px 14px 26px rgba(31,78,121,0.18);
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .card p { margin: 0; color: #455a6f; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border: 1px solid #b7c9dc;
+      border-radius: 999px;
+      background: #eef5fc;
+      color: var(--office-blue);
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      bottom: 16px;
+      left: 18px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--office-blue-2), var(--accent-green));
+      border-radius: 999px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 54px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 7px;
+      top: 5px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 3px solid white;
+      background: var(--office-blue-2);
+      box-shadow: 0 0 0 1px #7f9db9, 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .timeline-card {
+      border: 1px solid #b7c9dc;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: inset 1px 1px 0 #fff, 2px 4px 9px rgba(31,78,121,0.12);
+    }
+
+    .timeline-card strong { color: var(--office-blue); }
+    .timeline-card p { margin: 6px 0 0; color: #455a6f; }
+
+    .flow-diagram, .architecture-diagram {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid #b7c9dc;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fff 0%, #edf5fd 100%);
+      box-shadow: inset 1px 1px 0 #fff, 4px 8px 18px rgba(31,78,121,0.12);
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .flow-step, .arch-node {
+      position: relative;
+      min-height: 120px;
+      padding: 14px;
+      border: 1px solid #a7bfd8;
+      border-radius: 12px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      cursor: help;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+      box-shadow: inset 1px 1px 0 #fff, 2px 4px 8px rgba(31,78,121,0.1);
+    }
+
+    .flow-step:hover, .flow-step:focus,
+    .arch-node:hover, .arch-node:focus {
+      transform: translateY(-5px) scale(1.02);
+      border-color: var(--office-blue-2);
+      box-shadow: inset 1px 1px 0 #fff, 0 0 0 3px rgba(47,117,181,0.15), 4px 10px 18px rgba(31,78,121,0.2);
+      background: #f8fbff;
+      outline: none;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--office-blue-2);
+      font-size: 1.4rem;
+      font-weight: 900;
+      z-index: 5;
+    }
+
+    .step-icon, .arch-icon {
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .step-title, .arch-title {
+      font-weight: 900;
+      color: var(--office-blue);
+      line-height: 1.15;
+      font-size: 0.96rem;
+    }
+
+    .step-detail, .arch-detail {
+      font-size: 0.78rem;
+      color: #587086;
+      line-height: 1.35;
+    }
+
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .arch-node.center {
+      background: linear-gradient(180deg, #fff 0%, #e5f1ff 100%);
+      border-color: var(--office-blue-2);
+    }
+
+    .tooltip-line {
+      font-size: 0.9rem;
+      color: #455a6f;
+      background: #fffdf2;
+      border: 1px dashed #c9a227;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-top: 4px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .case-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .case-card .window-content { padding: 0; }
+    .case-copy { padding: 18px; }
+    .case-copy p { color: #455a6f; margin: 0 0 12px; }
+    .case-copy ul { margin: 0; padding-left: 18px; color: #455a6f; }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .compare-card {
+      min-height: 230px;
+      background: #fff;
+      border: 1px solid #b7c9dc;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: inset 1px 1px 0 #fff, 4px 8px 18px rgba(31,78,121,0.12);
+    }
+
+    .compare-card .not {
+      color: var(--danger-red);
+      font-weight: 900;
+      display: block;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    .compare-card .was {
+      color: var(--accent-green);
+      font-weight: 900;
+      display: block;
+      margin: 14px 0 8px;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    .code-placeholder {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #0f172a;
+      box-shadow: 6px 10px 22px rgba(15,23,42,0.22);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #2d2d30;
+      border-bottom: 1px solid #3e3e42;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.86rem;
+      color: #c8c8c8;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      white-space: pre-wrap;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #dcdcaa;
+    }
+
+    .pending-code { color: #9cdcfe; }
+    .code-comment { color: #6a9955; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-item {
+      border: 1px solid #b7c9dc;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: inset 1px 1px 0 #fff, 4px 8px 18px rgba(31,78,121,0.12);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: inset 1px 1px 0 #fff, 6px 12px 24px rgba(31,78,121,0.18);
+    }
+
+    .gallery-caption {
+      padding: 12px 14px;
+      color: #455a6f;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .quote-panel {
+      border-left: 8px solid var(--office-blue-2);
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: inset 1px 1px 0 #fff, 4px 8px 18px rgba(31,78,121,0.12);
+      color: #34495e;
+      font-size: 1.1rem;
+    }
+
+    .footer {
+      padding: 40px 20px;
+      background: linear-gradient(180deg, #1f4e79 0%, #17395b 100%);
+      color: #eaf4ff;
+      text-align: center;
+      border-top: 1px solid #9dc3e6;
+    }
+
+    .footer strong { color: #fff; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1060px) {
+      .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(239, 245, 252, 0.98);
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        gap: 8px;
+        border-top: 1px solid #9fbad6;
+      }
+
+      body.menu-open .nav-links { display: flex; }
+
+      .nav-links a {
+        padding: 14px 16px;
+        background: #fff;
+        border-color: #b7c9dc;
+        border-radius: 10px;
+      }
+
+      .hamburger { display: flex; }
+      .brand { min-width: 0; }
+      .brand-subtitle { display: none; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .two-col,
+      .case-grid,
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .ribbon-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .flow-row,
+      .architecture-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .flow-step:not(:last-child)::after { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      .section { padding: 56px 16px; }
+      .hero { padding: 72px 16px 56px; }
+      .nav-inner { padding: 0 14px; }
+      .ribbon-inner,
+      .cards-grid,
+      .gallery-grid,
+      .flow-row,
+      .architecture-grid {
+        grid-template-columns: 1fr;
+      }
+      .metric strong { font-size: 1.18rem; }
+      .window-content { padding: 14px; }
+      .brand-title { font-size: 0.95rem; }
+      .brand-icon { width: 38px; height: 38px; }
+    }
+  </style>
+</head>
+<body data-lang="es">
+  <header class="topbar">
+    <div class="nav-inner">
+      <a href="#inicio" class="brand" aria-label="Anselmo home">
+        <span class="brand-icon">XL</span>
+        <span>
+          <span class="brand-title">Anselmo</span>
+          <span class="brand-subtitle lang-es">Bot de automatización por correo</span>
+          <span class="brand-subtitle lang-en">Email automation bot</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Principal">
+        <a href="#inicio"><span class="lang-es">Inicio</span><span class="lang-en">Home</span></a>
+        <a href="#historia"><span class="lang-es">Historia</span><span class="lang-en">Story</span></a>
+        <a href="#como-funcionaba"><span class="lang-es">Cómo funcionaba</span><span class="lang-en">How it worked</span></a>
+        <a href="#servicios"><span class="lang-es">Servicios</span><span class="lang-en">Services</span></a>
+        <a href="#casos"><span class="lang-es">Casos reales</span><span class="lang-en">Real cases</span></a>
+        <a href="#arquitectura"><span class="lang-es">Arquitectura</span><span class="lang-en">Architecture</span></a>
+        <a href="#tecnologia"><span class="lang-es">Tecnología</span><span class="lang-en">Technology</span></a>
+        <a href="#legado"><span class="lang-es">Legado</span><span class="lang-en">Legacy</span></a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-toggle" aria-label="Language selector">
+          <button class="active" data-set-lang="es" type="button">ES</button>
+          <button data-set-lang="en" type="button">EN</button>
+        </div>
+        <button class="hamburger" id="menuButton" aria-label="Abrir menú" aria-expanded="false" type="button">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <!-- Hero Section -->
-    <header class="hero">
-      <h1 id="hero-title">Anselmo</h1>
-      <p id="hero-desc">
-        Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.
-      </p>
-      <a href="#contact" class="cta-button" id="cta">Contáctanos</a>
-    </header>
-
-    <!-- How It Works -->
-    <section id="how-it-works">
-      <h2 id="how-title">¿Cómo funciona?</h2>
-      <p id="how-desc">
-        Envía tus archivos al bot Anselmo por correo electrónico, y recibe los
-        resultados procesados en minutos.
-      </p>
-      <img
-        src="how_it_works.png"
-        alt="How Anselmo Works"
-        style="width: 100%; max-width: 600px; display: block; margin: 20px auto"
-      />
+  <main>
+    <section id="inicio" class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="kicker"><span>📧</span> <span class="lang-es">Proyecto histórico · 2020–2026</span><span class="lang-en">Historical project · 2020–2026</span></span>
+          <h1>Anselmo</h1>
+          <h2><span class="lang-es">Automatización por correo electrónico antes de la era de la IA</span><span class="lang-en">Email automation before the age of AI</span></h2>
+          <p class="lead lang-es block">
+            Anselmo fue un bot y servicio de automatización de tareas por correo electrónico. Recibía archivos, ejecutaba procesos programados a la medida, registraba actividad y respondía con resultados en minutos. Nació durante la cuarentena del COVID-19 en El Salvador, cuando todavía no existían herramientas de IA capaces de ayudar a construir o ejecutar este tipo de solución.
+          </p>
+          <p class="lead lang-en block">
+            Anselmo was an email-based automation bot and service. It received files, ran custom-built processes, logged activity, and replied with results within minutes. It was born during the COVID-19 lockdown in El Salvador, before AI tools made this kind of workflow common or easy to build.
+          </p>
+          <div class="hero-actions">
+            <a class="office-btn" href="#como-funcionaba"><span>▶</span><span class="lang-es">Ver cómo funcionaba</span><span class="lang-en">See how it worked</span></a>
+            <a class="office-btn" href="#casos"><span>📊</span><span class="lang-es">Casos reales</span><span class="lang-en">Real cases</span></a>
+          </div>
+        </div>
+        <div class="window hero-card reveal">
+          <div class="window-titlebar">
+            <span>Outlook — Anselmo</span>
+            <span class="window-controls"><span>—</span><span>□</span><span>×</span></span>
+          </div>
+          <div class="window-content">
+            <div class="image-frame">
+              <img src="assets/hero-anselmo.png" alt="Outlook de Anselmo con la carpeta Processed y correos de consolidación ya procesados" />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <style>
-      /* Add better contrast for the title */
-      .hero h1 {
-        color: white;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add a dark shadow for better contrast */
-      }
-    </style>
+    <aside class="ribbon" aria-label="Métricas de impacto">
+      <div class="ribbon-inner reveal">
+        <div class="metric"><strong>3–4 h → 5 min</strong><span class="lang-es">tiempo reducido</span><span class="lang-en">time reduced</span></div>
+        <div class="metric"><strong>~50</strong><span class="lang-es">archivos por jornada</span><span class="lang-en">files per run</span></div>
+        <div class="metric"><strong>3×/semana</strong><span class="lang-es">operación recurrente</span><span class="lang-en">recurring operation</span></div>
+        <div class="metric"><strong>24/7</strong><span class="lang-es">VPS con Outlook</span><span class="lang-en">VPS with Outlook</span></div>
+        <div class="metric"><strong>2</strong><span class="lang-es">clientes reales</span><span class="lang-en">real clients</span></div>
+      </div>
+    </aside>
 
-    <!-- Features -->
-    <section id="features">
-      <h2 id="features-title">Características</h2>
-      <ul id="features-list">
-        <li>Extracción y procesamiento de datos</li>
-        <li>Generación de reportes y gráficas</li>
-        <li>Consolidación de archivos</li>
-        <li>Automatización de tareas periódicas</li>
-      </ul>
+    <section id="historia" class="section">
+      <div class="container two-col">
+        <div class="reveal">
+          <div class="section-heading">
+            <span class="tag">📜 <span class="lang-es">Historia</span><span class="lang-en">Story</span></span>
+            <h2><span class="lang-es">Una solución nacida en un momento difícil</span><span class="lang-en">A solution born in a difficult moment</span></h2>
+            <p class="lang-es block">Anselmo comenzó a operar en noviembre de 2020, durante el contexto de la cuarentena por COVID-19 en El Salvador. Fue una respuesta práctica a un problema real: empresas pequeñas necesitaban automatizar tareas repetitivas, pero una webapp tradicional era demasiado costosa, compleja o innecesaria para su operación diaria.</p>
+            <p class="lang-en block">Anselmo began operating in November 2020, during the COVID-19 lockdown context in El Salvador. It was a practical answer to a real problem: small businesses needed automation, but a traditional web app was too expensive, too complex, or simply unnecessary for their daily operations.</p>
+          </div>
+          <div class="quote-panel">
+            <span class="lang-es">Anselmo se adelantó a su tiempo: no era IA, pero ya hacía algo que hoy asociamos con agentes automatizados — recibir una solicitud, ejecutar una tarea, producir un resultado y responder sin intervención humana directa.</span>
+            <span class="lang-en">Anselmo was ahead of its time: it was not AI, but it already did something we now associate with automated agents — receiving a request, executing a task, producing a result, and replying without direct human intervention.</span>
+          </div>
+        </div>
+        <div class="window reveal">
+          <div class="window-titlebar"><span class="lang-es">Línea de tiempo</span><span class="lang-en">Timeline</span><span class="window-controls"><span>—</span><span>□</span><span>×</span></span></div>
+          <div class="window-content">
+            <div class="timeline">
+              <div class="timeline-item">
+                <span class="timeline-dot"></span>
+                <div class="timeline-card"><strong>2020</strong><p><span class="lang-es">La cuarentena acelera la necesidad de operar de forma remota y eficiente.</span><span class="lang-en">Lockdown accelerates the need to operate remotely and efficiently.</span></p></div>
+              </div>
+              <div class="timeline-item">
+                <span class="timeline-dot"></span>
+                <div class="timeline-card"><strong><span class="lang-es">Noviembre 2020</span><span class="lang-en">November 2020</span></strong><p><span class="lang-es">Anselmo entra en operación como bot de automatización por correo.</span><span class="lang-en">Anselmo begins operating as an email automation bot.</span></p></div>
+              </div>
+              <div class="timeline-item">
+                <span class="timeline-dot"></span>
+                <div class="timeline-card"><strong>2020–2026</strong><p><span class="lang-es">Procesa tareas reales para clientes: consolidación, reportes, base de datos y seguimiento operativo.</span><span class="lang-en">It processes real client tasks: consolidation, reporting, database storage, and operational follow-up.</span></p></div>
+              </div>
+              <div class="timeline-item">
+                <span class="timeline-dot"></span>
+                <div class="timeline-card"><strong><span class="lang-es">Mayo 2026</span><span class="lang-en">May 2026</span></strong><p><span class="lang-es">Cierra operaciones cuando los clientes encuentran soluciones alternas impulsadas por el auge de la IA.</span><span class="lang-en">Operations close as clients find alternative solutions shaped by the rise of AI.</span></p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Testimonials -->
-    <section id="testimonials">
-      <h2 id="testimonials-title">Testimonios</h2>
-      <blockquote id="testimonial">
-        <p>
-          "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo
-          necesario para consolidar pedidos. ¡Una herramienta increíble!"
-        </p>
-        <cite>Cliente Satisfecho</cite>
-      </blockquote>
+    <section id="nombre" class="section">
+      <div class="container two-col">
+        <div class="window reveal">
+          <div class="window-titlebar"><span class="lang-es">Origen del nombre</span><span class="lang-en">Origin of the name</span><span class="window-controls"><span>—</span><span>□</span><span>×</span></span></div>
+          <div class="window-content">
+            <p class="lang-es block">El nombre Anselmo nació como un recordatorio personal de lo sorprendente que podía llegar a ser Excel cuando alguien lo dominaba profundamente. La referencia venía de un profesor de la universidad, ingeniero electricista, capaz de usar Excel como nadie más.</p>
+            <p class="lang-en block">The name Anselmo came from a personal reminder of how powerful Excel could become in the hands of someone who truly mastered it. The reference came from a university professor, an electrical engineer, who could use Excel like no one else.</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="section-heading">
+            <span class="tag">🧩 <span class="lang-es">Filosofía técnica</span><span class="lang-en">Technical philosophy</span></span>
+            <h2><span class="lang-es">Llevar Office más lejos</span><span class="lang-en">Taking Office further</span></h2>
+            <p class="lang-es block">Esa idea terminó conectando con la filosofía de Anselmo: antes de construir una plataforma enorme, a veces bastaba con llevar Excel, Outlook y VBA mucho más lejos de lo que normalmente se imaginaba.</p>
+            <p class="lang-en block">That idea became part of Anselmo’s technical philosophy: before building a large platform, sometimes the answer was to take Excel, Outlook, and VBA much further than people usually imagined.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq">
-      <h2 id="faq-title">Preguntas Frecuentes</h2>
-      <details>
-        <summary id="faq-q1">¿Qué tipos de archivos procesa Anselmo?</summary>
-        <p id="faq1">
-          Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.
-        </p>
-      </details>
-      <details>
-        <summary id="faq-q2">¿Cómo se personalizan las tareas?</summary>
-        <p id="faq2">
-          Nos reunimos con el cliente para entender sus necesidades y programar
-          las soluciones específicas.
-        </p>
-      </details>
-      <details>
-        <summary id="faq-q3">¿Cuánto cuesta el servicio?</summary>
-        <p id="faq3">Contáctanos para una cotización personalizada.</p>
-      </details>
+    <section id="como-funcionaba" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">📨 <span class="lang-es">Cómo funcionaba</span><span class="lang-en">How it worked</span></span>
+          <h2><span class="lang-es">El canal era el correo electrónico</span><span class="lang-en">The channel was email</span></h2>
+          <p class="lang-es block">El cliente enviaba un correo a Anselmo con una palabra clave en el asunto y los archivos adjuntos. Outlook despertaba al bot, la tarea se procesaba en Office/VBA y el cliente recibía una confirmación con el archivo resultante si aplicaba.</p>
+          <p class="lang-en block">The client emailed Anselmo with a keyword in the subject line and attached files. Outlook woke the bot, the task ran through Office/VBA, and the client received a confirmation email with the resulting file when applicable.</p>
+        </div>
+
+        <div class="flow-diagram reveal" aria-label="Diagrama de flujo por correo">
+          <div class="flow-row">
+            <div class="flow-step" tabindex="0"><span class="step-icon">👤</span><span class="step-title"><span class="lang-es">Cliente</span><span class="lang-en">Client</span></span><span class="step-detail"><span class="lang-es">Prepara archivo o paquete.</span><span class="lang-en">Prepares a file or bundle.</span></span></div>
+            <div class="flow-step" tabindex="0"><span class="step-icon">🔑</span><span class="step-title"><span class="lang-es">Palabra clave</span><span class="lang-en">Keyword</span></span><span class="step-detail"><span class="lang-es">Ejemplo: “Consolidar”.</span><span class="lang-en">Example: “Consolidar”.</span></span></div>
+            <div class="flow-step" tabindex="0"><span class="step-icon">📥</span><span class="step-title">Outlook</span><span class="step-detail"><span class="lang-es">Recibe el correo.</span><span class="lang-en">Receives the email.</span></span></div>
+            <div class="flow-step" tabindex="0"><span class="step-icon">🤖</span><span class="step-title">Anselmo</span><span class="step-detail"><span class="lang-es">Identifica y encola la tarea.</span><span class="lang-en">Identifies and queues the task.</span></span></div>
+            <div class="flow-step" tabindex="0"><span class="step-icon">📊</span><span class="step-title">Office/VBA</span><span class="step-detail"><span class="lang-es">Ejecuta el proceso.</span><span class="lang-en">Runs the process.</span></span></div>
+            <div class="flow-step" tabindex="0"><span class="step-icon">📤</span><span class="step-title"><span class="lang-es">Respuesta</span><span class="lang-en">Reply</span></span><span class="step-detail"><span class="lang-es">Confirma y adjunta resultado.</span><span class="lang-en">Confirms and attaches output.</span></span></div>
+          </div>
+          <div class="tooltip-line"><span class="lang-es">Pasa el mouse o toca cada paso para resaltarlo. El flujo imitaba la experiencia natural de trabajo del cliente: enviar y recibir correos.</span><span class="lang-en">Hover or tap each step to highlight it. The flow matched the client’s natural way of working: sending and receiving email.</span></div>
+        </div>
+      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-      <h2 id="contact-title">Contacto</h2>
-      <p id="contact-desc">Para más información, contáctanos:</p>
-      <ul>
-        <li>
-          Email:
-          <a href="mailto:info@korckyjals-code.com">info@korckyjals-code.com</a>
-        </li>
-      </ul>
+    <section id="servicios" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">🧰 <span class="lang-es">Servicios</span><span class="lang-en">Services</span></span>
+          <h2><span class="lang-es">Lo que Anselmo ofrecía</span><span class="lang-en">What Anselmo offered</span></h2>
+          <p class="lang-es block">Cada tarea se hacía a la medida. Anselmo podía ejecutar cualquier proceso programable con VBA sobre archivos de Office o texto, además de consultar y almacenar datos cuando el caso lo requería.</p>
+          <p class="lang-en block">Each task was custom-built. Anselmo could run any VBA-programmable process over Office or text files, and it could also read or store data when the use case required it.</p>
+        </div>
+        <div class="cards-grid reveal">
+          <div class="card"><span class="tag">Excel</span><h3><span class="lang-es">Consolidación de archivos</span><span class="lang-en">File consolidation</span></h3><p><span class="lang-es">Unificar decenas de archivos y producir un reporte final estructurado.</span><span class="lang-en">Merge dozens of files into a structured final report.</span></p></div>
+          <div class="card"><span class="tag">Data</span><h3><span class="lang-es">Extracción y procesamiento</span><span class="lang-en">Extraction and processing</span></h3><p><span class="lang-es">Leer información de Excel, Word, PowerPoint o texto y transformarla según reglas definidas.</span><span class="lang-en">Read information from Excel, Word, PowerPoint, or text files and transform it using defined rules.</span></p></div>
+          <div class="card"><span class="tag">Reportes</span><h3><span class="lang-es">Reportes y gráficas</span><span class="lang-en">Reports and charts</span></h3><p><span class="lang-es">Generar resultados claros, gráficas, cálculos y archivos listos para operar.</span><span class="lang-en">Generate clear outputs, charts, calculations, and operation-ready files.</span></p></div>
+          <div class="card"><span class="tag">MySQL</span><h3><span class="lang-es">Base de datos</span><span class="lang-en">Database</span></h3><p><span class="lang-es">Almacenar, consultar y reportar datos de clientes cuando la tarea lo necesitaba.</span><span class="lang-en">Store, query, and report client data whenever a task needed it.</span></p></div>
+          <div class="card"><span class="tag">24/7</span><h3><span class="lang-es">Tareas periódicas</span><span class="lang-en">Scheduled tasks</span></h3><p><span class="lang-es">Ejecutar procesos recurrentes incluso sin recibir un correo específico del cliente.</span><span class="lang-en">Run recurring processes even without receiving a specific client email.</span></p></div>
+          <div class="card"><span class="tag">A medida</span><h3><span class="lang-es">Procesos personalizados</span><span class="lang-en">Custom workflows</span></h3><p><span class="lang-es">Entender el proceso real, programarlo y activarlo mediante una palabra clave.</span><span class="lang-en">Understand the real workflow, program it, and trigger it through a keyword.</span></p></div>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-      <p id="footer-desc">© 2024 Anselmo. Todos los derechos reservados.</p>
-    </footer>
+    <section id="casos" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">🏢 <span class="lang-es">Casos reales</span><span class="lang-en">Real cases</span></span>
+          <h2><span class="lang-es">Dos clientes, problemas reales</span><span class="lang-en">Two clients, real problems</span></h2>
+          <p class="lang-es block">Anselmo operó para clientes reales: una venta de frutas y verduras por catálogo y una empresa de logística. En ambos casos, la promesa era la misma: reducir trabajo manual, errores y tiempo perdido.</p>
+          <p class="lang-en block">Anselmo served real clients: a catalog-based fruit and vegetable business and a logistics company. In both cases, the promise was the same: reduce manual work, errors, and wasted time.</p>
+        </div>
 
-    <script>
-      const translations = {
-        es: {
-          "hero-title": "Anselmo",
-          "hero-desc":
-            "Automatiza tareas repetitivas, ahorra tiempo y mejora la productividad.",
-          cta: "Contáctanos",
-          "how-title": "¿Cómo funciona?",
-          "how-desc":
-            "Envía tus archivos al bot Anselmo por correo electrónico, y recibe los resultados procesados en minutos.",
-          "features-title": "Características",
-          "features-list": [
-            "Extracción y procesamiento de datos",
-            "Generación de reportes y gráficas",
-            "Consolidación de archivos",
-            "Automatización de tareas periódicas",
-          ],
-          "testimonials-title": "Testimonios",
-          testimonial:
-            "Anselmo nos ayudó a reducir de 4 horas a 5 minutos el tiempo necesario para consolidar pedidos. ¡Una herramienta increíble!",
-          "faq-title": "Preguntas Frecuentes",
-          "faq-q1": "¿Qué tipos de archivos procesa Anselmo?",
-          "faq-q2": "¿Cómo se personalizan las tareas?",
-          "faq-q3": "¿Cuánto cuesta el servicio?",
-          faq1: "Anselmo trabaja con archivos de Excel, Word, PowerPoint y texto.",
-          faq2: "Nos reunimos con el cliente para entender sus necesidades y programar las soluciones específicas.",
-          faq3: "Contáctanos para una cotización personalizada.",
-          "contact-title": "Contacto",
-          "contact-desc": "Para más información, contáctanos:",
-          "phone-label": "Teléfono",
-          "footer-desc": "© 2024 Anselmo. Todos los derechos reservados.",
-        },
-        en: {
-          "hero-title": "Anselmo",
-          "hero-desc":
-            "Automate repetitive tasks, save time, and improve productivity.",
-          cta: "Contact Us",
-          "how-title": "How It Works",
-          "how-desc":
-            "Send your files to the Anselmo bot via email, and receive the processed results within minutes.",
-          "features-title": "Features",
-          "features-list": [
-            "Data extraction and processing",
-            "Report and chart generation",
-            "File consolidation",
-            "Periodic task automation",
-          ],
-          "testimonials-title": "Testimonials",
-          testimonial:
-            "Anselmo helped us reduce the time needed to consolidate orders from 4 hours to 5 minutes. An amazing tool!",
-          "faq-title": "Frequently Asked Questions",
-          "faq-q1": "What types of files does Anselmo process?",
-          "faq-q2": "How are tasks customized?",
-          "faq-q3": "How much does the service cost?",
-          faq1: "Anselmo works with Excel, Word, PowerPoint, and text files.",
-          faq2: "We meet with the client to understand their needs and program specific solutions.",
-          faq3: "Contact us for a personalized quote.",
-          "contact-title": "Contact",
-          "contact-desc": "For more information, reach out to us:",
-          "phone-label": "Phone",
-          "footer-desc": "© 2024 Anselmo. All rights reserved.",
-        },
-      };
+        <div class="case-grid">
+          <article class="window case-card reveal">
+            <div class="window-titlebar"><span class="lang-es">Caso 1: frutas y verduras</span><span class="lang-en">Case 1: produce catalog</span><span class="window-controls"><span>—</span><span>□</span><span>×</span></span></div>
+            <div class="window-content">
+              <div class="image-frame"><img src="assets/caso-frutas-verduras.png" alt="Placeholder del caso de frutas y verduras" /></div>
+              <div class="case-copy">
+                <p class="lang-es block">La empresa enviaba un catálogo de Excel por WhatsApp. Sus clientes lo llenaban y lo devolvían. Tres veces por semana recibían alrededor de 50 archivos que debían consolidar manualmente.</p>
+                <p class="lang-en block">The business sent an Excel catalog through WhatsApp. Customers filled it out and returned it. Three times per week, the company received around 50 files that had to be manually consolidated.</p>
+                <ul>
+                  <li><span class="lang-es">Antes: 3–4 horas de trabajo manual.</span><span class="lang-en">Before: 3–4 hours of manual work.</span></li>
+                  <li><span class="lang-es">Con Anselmo: aproximadamente 5 minutos.</span><span class="lang-en">With Anselmo: about 5 minutes.</span></li>
+                  <li><span class="lang-es">Resultado: reporte consolidado para comprar a proveedores.</span><span class="lang-en">Output: consolidated supplier purchasing report.</span></li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
-      function switchLanguage(lang) {
-        const elements = document.querySelectorAll("[id]");
-        elements.forEach((el) => {
-          const id = el.id;
-          if (translations[lang][id]) {
-            if (Array.isArray(translations[lang][id])) {
-              el.innerHTML = translations[lang][id]
-                .map((item) => `<li>${item}</li>`)
-                .join("");
-            } else {
-              el.innerHTML = translations[lang][id];
-            }
-          }
-        });
-      }
-    </script>
-  </body>
+          <article class="window case-card reveal">
+            <div class="window-titlebar"><span class="lang-es">Caso 2: logística</span><span class="lang-en">Case 2: logistics</span><span class="window-controls"><span>—</span><span>□</span><span>×</span></span></div>
+            <div class="window-content">
+              <div class="image-frame"><img src="assets/caso-logistica.png" alt="Placeholder del caso de logística" /></div>
+              <div class="case-copy">
+                <p class="lang-es block">Varios negocios enviaban solicitudes de distribución. Anselmo recibía las tablas de Excel, almacenaba cada fila en base de datos y al final del día enviaba el reporte para preparar los camiones.</p>
+                <p class="lang-en block">Several businesses sent delivery requests. Anselmo received Excel tables, stored each row in the database, and sent an end-of-day report so trucks could be prepared.</p>
+                <ul>
+                  <li><span class="lang-es">Menos errores por consolidación manual.</span><span class="lang-en">Fewer errors from manual consolidation.</span></li>
+                  <li><span class="lang-es">Datos almacenados con trazabilidad.</span><span class="lang-en">Traceable stored data.</span></li>
+                  <li><span class="lang-es">Reporte operativo de las últimas 24 horas.</span><span class="lang-en">Operational report for the last 24 hours.</span></li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="arquitectura" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">🏗️ <span class="lang-es">Arquitectura</span><span class="lang-en">Architecture</span></span>
+          <h2><span class="lang-es">Un bot residente dentro de Outlook</span><span class="lang-en">A bot living inside Outlook</span></h2>
+          <p class="lang-es block">La arquitectura combinaba un Windows VPS disponible 24/7, Outlook VBA, eventos de Outlook, un timer Win32 interno, herramientas Office y MySQL vía ODBC + ADODB.</p>
+          <p class="lang-en block">The architecture combined a 24/7 Windows VPS, Outlook VBA, Outlook events, an internal Win32 timer, Office tools, and MySQL through ODBC + ADODB.</p>
+        </div>
+        <div class="architecture-diagram reveal">
+          <div class="architecture-grid">
+            <div class="arch-node" tabindex="0"><span class="arch-icon">🌐</span><span class="arch-title">Windows VPS</span><span class="arch-detail"><span class="lang-es">Servidor en el extranjero, disponible 24/7.</span><span class="lang-en">Overseas server, available 24/7.</span></span></div>
+            <div class="arch-node center" tabindex="0"><span class="arch-icon">📧</span><span class="arch-title">Outlook VBA</span><span class="arch-detail"><span class="lang-es">Donde vivía Anselmo.</span><span class="lang-en">Where Anselmo lived.</span></span></div>
+            <div class="arch-node" tabindex="0"><span class="arch-icon">⏱️</span><span class="arch-title">Win32 Timer</span><span class="arch-detail"><span class="lang-es">Polling y procesamiento real.</span><span class="lang-en">Polling and real processing.</span></span></div>
+            <div class="arch-node" tabindex="0"><span class="arch-icon">⚡</span><span class="arch-title">Application_Startup / ItemAdd</span><span class="arch-detail"><span class="lang-es">Eventos que despertaban al bot.</span><span class="lang-en">Events that woke the bot.</span></span></div>
+            <div class="arch-node center" tabindex="0"><span class="arch-icon">📊</span><span class="arch-title">Excel/Word VBA BOT</span><span class="arch-detail"><span class="lang-es">Capa de trabajo pesado en archivos Office.</span><span class="lang-en">Heavy processing layer for Office files.</span></span></div>
+            <div class="arch-node" tabindex="0"><span class="arch-icon">🗄️</span><span class="arch-title">MySQL + ODBC + ADODB</span><span class="arch-detail"><span class="lang-es">Auditoría, trazabilidad y datos de clientes cuando aplicaba.</span><span class="lang-en">Audit, traceability, and client data when needed.</span></span></div>
+          </div>
+          <div class="tooltip-line"><span class="lang-es">Pasa el mouse o toca cada componente para resaltarlo. La base de datos era el libro de registro y el panel de salud de Anselmo, no su cerebro operativo.</span><span class="lang-en">Hover or tap each component to highlight it. The database was Anselmo’s logbook and health dashboard, not its operational brain.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tecnologia" class="section">
+      <div class="container two-col">
+        <div class="reveal">
+          <div class="section-heading">
+            <span class="tag">💾 <span class="lang-es">Tecnología</span><span class="lang-en">Technology</span></span>
+            <h2><span class="lang-es">Office, VBA y persistencia</span><span class="lang-en">Office, VBA, and persistence</span></h2>
+            <p class="lang-es block">Anselmo vivía dentro de Outlook VBA. Al recibir un correo o iniciar la aplicación, el sistema quedaba atento mediante eventos y un timer interno. El trabajo pesado era delegado a libros BOT de Excel/Word VBA ejecutados desde <strong>ProcessBotTask</strong>.</p>
+            <p class="lang-en block">Anselmo lived inside Outlook VBA. When an email arrived or the application started, events and an internal timer kept the system awake. The heavy work was delegated to Excel/Word VBA BOT workbooks launched from <strong>ProcessBotTask</strong>.</p>
+            <div class="image-frame"><img src="assets/outlook-vba.png" alt="Placeholder de Outlook VBA" /></div>
+            <div class="placeholder-note"><span>⚠</span><span class="lang-es">Captura pendiente de Outlook, VBA o estructura interna.</span><span class="lang-en">Pending screenshot of Outlook, VBA, or internal structure.</span></div>
+          </div>
+        </div>
+        <div class="code-placeholder reveal" aria-label="Bloque de código pendiente">
+          <div class="code-header"><span>OutlookBot.bas</span><span class="lang-es">fragmento pendiente</span><span class="lang-en">pending snippet</span></div>
+          <pre><span class="code-comment">' ES: Fragmento real de VBA pendiente de insertar.
+' EN: Real VBA snippet pending insertion.</span>
+
+<span class="pending-code">' Application_Startup
+' ItemAdd
+' Win32 Timer
+' ProcessBotTask
+' BotTasks / BotLatestActivity
+
+' Reemplazar este bloque cuando se proporcionen los fragmentos reales.</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="incorporacion" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">🧭 <span class="lang-es">Incorporación de tareas</span><span class="lang-en">Task onboarding</span></span>
+          <h2><span class="lang-es">Automatización a la medida</span><span class="lang-en">Custom automation</span></h2>
+          <p class="lang-es block">Una nueva tarea no nacía de una plantilla genérica. Primero se entendía el proceso del cliente, luego se hacía una propuesta, se programaba el flujo y finalmente se entregaba una palabra clave para activar el proceso por correo.</p>
+          <p class="lang-en block">A new task did not start from a generic template. The client’s process was first understood, then a proposal was made, the workflow was programmed, and a keyword was delivered to trigger the process by email.</p>
+        </div>
+        <div class="cards-grid reveal">
+          <div class="card"><span class="tag">1</span><h3><span class="lang-es">Entender</span><span class="lang-en">Understand</span></h3><p><span class="lang-es">Reunirse con el cliente y comprender su proceso real.</span><span class="lang-en">Meet the client and understand the real workflow.</span></p></div>
+          <div class="card"><span class="tag">2</span><h3><span class="lang-es">Diseñar</span><span class="lang-en">Design</span></h3><p><span class="lang-es">Definir entradas, reglas, salidas, errores y frecuencia.</span><span class="lang-en">Define inputs, rules, outputs, errors, and frequency.</span></p></div>
+          <div class="card"><span class="tag">3</span><h3><span class="lang-es">Programar</span><span class="lang-en">Program</span></h3><p><span class="lang-es">Crear el procedimiento VBA específico para ese caso.</span><span class="lang-en">Build the specific VBA procedure for that case.</span></p></div>
+          <div class="card"><span class="tag">4</span><h3><span class="lang-es">Activar</span><span class="lang-en">Activate</span></h3><p><span class="lang-es">Entregar una palabra clave para usarla en el asunto del correo.</span><span class="lang-en">Provide a keyword to use in the email subject line.</span></p></div>
+          <div class="card"><span class="tag">5</span><h3><span class="lang-es">Operar</span><span class="lang-en">Operate</span></h3><p><span class="lang-es">El cliente enviaba correos y Anselmo respondía con los resultados.</span><span class="lang-en">The client sent emails and Anselmo replied with the results.</span></p></div>
+          <div class="card"><span class="tag">6</span><h3><span class="lang-es">Auditar</span><span class="lang-en">Audit</span></h3><p><span class="lang-es">La base de datos registraba actividad, trazabilidad y salud del bot.</span><span class="lang-en">The database logged activity, traceability, and bot health.</span></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="no-era" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">⚖️ <span class="lang-es">Comparación</span><span class="lang-en">Comparison</span></span>
+          <h2><span class="lang-es">Lo que Anselmo no era</span><span class="lang-en">What Anselmo was not</span></h2>
+          <p class="lang-es block">Para entender su valor, también importa decir lo que no era. Anselmo no intentaba ser una plataforma universal; era una solución precisa para procesos repetitivos y críticos.</p>
+          <p class="lang-en block">To understand its value, it also matters to say what it was not. Anselmo did not try to be a universal platform; it was a precise solution for repetitive, business-critical workflows.</p>
+        </div>
+        <div class="comparison reveal">
+          <div class="compare-card"><span class="not"><span class="lang-es">No era</span><span class="lang-en">It was not</span></span><h3><span class="lang-es">IA generativa</span><span class="lang-en">Generative AI</span></h3><p><span class="lang-es">No interpretaba instrucciones abiertas ni improvisaba respuestas.</span><span class="lang-en">It did not interpret open-ended prompts or improvise responses.</span></p><span class="was"><span class="lang-es">Era</span><span class="lang-en">It was</span></span><p><span class="lang-es">Automatización diseñada con precisión, autónoma y repetible.</span><span class="lang-en">Precisely designed, autonomous, repeatable automation.</span></p></div>
+          <div class="compare-card"><span class="not"><span class="lang-es">No era</span><span class="lang-en">It was not</span></span><h3><span class="lang-es">Una webapp tradicional</span><span class="lang-en">A traditional web app</span></h3><p><span class="lang-es">No obligaba al cliente a aprender una plataforma nueva.</span><span class="lang-en">It did not force the client to learn a new platform.</span></p><span class="was"><span class="lang-es">Era</span><span class="lang-en">It was</span></span><p><span class="lang-es">Un bot que vivía en el canal que las empresas ya usaban: el correo.</span><span class="lang-en">A bot living in the channel businesses already used: email.</span></p></div>
+          <div class="compare-card"><span class="not"><span class="lang-es">No era</span><span class="lang-en">It was not</span></span><h3><span class="lang-es">Trabajo manual disfrazado</span><span class="lang-en">Manual work in disguise</span></h3><p><span class="lang-es">No dependía de una persona copiando instrucciones cada vez.</span><span class="lang-en">It did not depend on a person copying instructions each time.</span></p><span class="was"><span class="lang-es">Era</span><span class="lang-en">It was</span></span><p><span class="lang-es">Un “empleado virtual” para tareas específicas y repetitivas.</span><span class="lang-en">A “virtual employee” for specific, repetitive tasks.</span></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria" class="section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="tag">🖼️ <span class="lang-es">Galería</span><span class="lang-en">Gallery</span></span>
+          <h2><span class="lang-es">Capturas pendientes</span><span class="lang-en">Pending screenshots</span></h2>
+          <p class="lang-es block">Esta galería está preparada para recibir capturas reales del proyecto: Outlook, macros, reportes, archivos consolidados, infraestructura y evidencias históricas.</p>
+          <p class="lang-en block">This gallery is ready for real project screenshots: Outlook, macros, reports, consolidated files, infrastructure, and historical evidence.</p>
+          <div class="placeholder-note"><span>⚠</span><span class="lang-es">Las imágenes actuales son placeholders y se reemplazarán cuando estén listas las capturas reales.</span><span class="lang-en">Current images are placeholders and will be replaced once real screenshots are ready.</span></div>
+        </div>
+        <div class="gallery-grid reveal">
+          <figure class="gallery-item"><img src="assets/galeria-01.png" alt="Placeholder galería 1" /><figcaption class="gallery-caption"><span class="lang-es">Outlook y bandeja de entrada</span><span class="lang-en">Outlook and inbox</span></figcaption></figure>
+          <figure class="gallery-item"><img src="assets/galeria-02.png" alt="Placeholder galería 2" /><figcaption class="gallery-caption"><span class="lang-es">VBA / módulos internos</span><span class="lang-en">VBA / internal modules</span></figcaption></figure>
+          <figure class="gallery-item"><img src="assets/galeria-03.png" alt="Placeholder galería 3" /><figcaption class="gallery-caption"><span class="lang-es">Reporte consolidado</span><span class="lang-en">Consolidated report</span></figcaption></figure>
+          <figure class="gallery-item"><img src="assets/galeria-04.png" alt="Placeholder galería 4" /><figcaption class="gallery-caption"><span class="lang-es">Base de datos / auditoría</span><span class="lang-en">Database / audit</span></figcaption></figure>
+          <figure class="gallery-item"><img src="assets/galeria-05.png" alt="Placeholder galería 5" /><figcaption class="gallery-caption"><span class="lang-es">Archivos recibidos</span><span class="lang-en">Received files</span></figcaption></figure>
+          <figure class="gallery-item"><img src="assets/galeria-06.png" alt="Placeholder galería 6" /><figcaption class="gallery-caption"><span class="lang-es">Resultado enviado</span><span class="lang-en">Sent result</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="legado" class="section">
+      <div class="container two-col">
+        <div class="reveal">
+          <div class="section-heading">
+            <span class="tag">🌱 <span class="lang-es">Legado</span><span class="lang-en">Legacy</span></span>
+            <h2><span class="lang-es">Lo que Anselmo dejó</span><span class="lang-en">What Anselmo left behind</span></h2>
+            <p class="lang-es block">Anselmo demostró que una solución sencilla, bien diseñada y hecha con herramientas disponibles podía resolver problemas reales de empresas pequeñas, incluso antes de la era de la IA.</p>
+            <p class="lang-en block">Anselmo proved that a simple, well-designed solution built with available tools could solve real problems for small businesses, even before the age of AI.</p>
+          </div>
+          <div class="quote-panel">
+            <span class="lang-es">Su legado no está solo en los archivos que procesó, sino en la idea de que la innovación no siempre empieza con tecnología nueva. A veces empieza mirando con atención un proceso repetitivo y preguntando: ¿por qué una persona sigue haciendo esto a mano?</span>
+            <span class="lang-en">Its legacy is not only in the files it processed, but in the idea that innovation does not always begin with new technology. Sometimes it begins by looking closely at a repetitive process and asking: why is a person still doing this by hand?</span>
+          </div>
+        </div>
+        <div class="window reveal">
+          <div class="window-titlebar"><span>Korckyjals-CODE</span><span class="window-controls"><span>—</span><span>□</span><span>×</span></span></div>
+          <div class="window-content">
+            <div class="image-frame"><img src="assets/reporte-consolidado.png" alt="Placeholder de reporte consolidado" /></div>
+            <p style="margin:16px 0 0;color:#455a6f;"><strong><span class="lang-es">Un proyecto de Jorge López / Korckyjals-CODE.</span><span class="lang-en">A project by Jorge López / Korckyjals-CODE.</span></strong></p>
+            <p style="margin:6px 0 0;color:#64748b;"><span class="lang-es">Página conmemorativa, sin llamada comercial.</span><span class="lang-en">A commemorative page, without a commercial call to action.</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>Anselmo</strong> — <span class="lang-es">Automatización por correo electrónico antes de la era de la IA.</span><span class="lang-en">Email automation before the age of AI.</span></p>
+    <p><span class="lang-es">Un proyecto de Jorge López / Korckyjals-CODE · Operó aproximadamente de noviembre de 2020 a mayo de 2026.</span><span class="lang-en">A project by Jorge López / Korckyjals-CODE · Operated approximately from November 2020 to May 2026.</span></p>
+  </footer>
+
+  <script>
+    const body = document.body;
+    const langButtons = document.querySelectorAll('[data-set-lang]');
+    const menuButton = document.getElementById('menuButton');
+    const navLinks = document.getElementById('navLinks');
+
+    function setLanguage(lang) {
+      body.setAttribute('data-lang', lang);
+      document.documentElement.lang = lang;
+      langButtons.forEach((button) => {
+        button.classList.toggle('active', button.dataset.setLang === lang);
+      });
+      localStorage.setItem('anselmo-lang', lang);
+    }
+
+    langButtons.forEach((button) => {
+      button.addEventListener('click', () => setLanguage(button.dataset.setLang));
+    });
+
+    const savedLang = localStorage.getItem('anselmo-lang');
+    if (savedLang === 'en' || savedLang === 'es') setLanguage(savedLang);
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = body.classList.toggle('menu-open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        body.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
 </html>
